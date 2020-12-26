@@ -3,6 +3,7 @@
 pada program ini terdapat 2 flag yaitu concurren limit dan output path
 
 program ini terbagi menjadi 3 fungsi utama yaitu
+
 1.Fungsi getJson
 
 fungsi ini digunakan untuk mengambil json dari API dan meletakkanya pada struct
