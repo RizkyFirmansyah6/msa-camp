@@ -4,7 +4,8 @@
    
     <UiModal closeOnOverlay :show.sync="isShownModal">
       <div class="some-modal-content">
-        hi here
+        <p>location = {{ location }}</p>
+        <p>time = {{ time }} Second</p>
         <div class="buttons">
           <button @click="submitModalHandler">ok</button>
         </div>
@@ -69,7 +70,14 @@ export default {
       selectedRoute: '',
       
       traveler1: [],
-      traveler2: []
+      traveler2: [],
+
+      pos1: '',
+      pos2: '',
+      start: '',
+      finish: '',
+      time: '',
+      location: ''
     }
   },
 
@@ -283,6 +291,8 @@ export default {
     },
 
     async startRoute () {
+      this.start = new Date()
+
       this.traveler1 = []
       this.traveler2 = []
       this.traveler1Map.setPath([])
@@ -293,10 +303,23 @@ export default {
 
       this.traveler1Move()
       this.traveler2Move()
+
+      this.isMeetingPoint()
     },
 
-    isMeetingPoint() {
+    async isMeetingPoint () {
       // TODO: calculate whether current traveler1 and traveler 2 position is meeting point, show information to UI
+      this.finish = new Date()
+      if (this.traveler1Pos.lat <= this.traveler2Pos.lat && this.traveler1Pos.lng <= this.traveler2Pos.lng) {
+        this.location = this.traveler1Pos
+        this.time = Math.abs((this.start.getTime() - this.finish.getTime()) / 1000)
+        this.isShownModal = true
+        return
+      }
+      let vm = this
+      setTimeout(() => {
+        vm.isMeetingPoint()
+      }, 500)
     },
 
     showToast () {
